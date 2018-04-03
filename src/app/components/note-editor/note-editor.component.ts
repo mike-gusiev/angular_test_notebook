@@ -58,7 +58,7 @@ export class NoteEditorComponent implements OnInit {
     handlerDeleteNote(): void {
         if(this.id !== 'new') {
             this.notesService.deleteNote(this.id);
-            this.router.navigate(["/new"]);
+            this.router.navigate(['/new']);
         }
     }
 
@@ -90,14 +90,10 @@ export class NoteEditorComponent implements OnInit {
             this.notesForm.patchValue({
                 noteName: this.currentNote.name,
                 noteDescription: this.currentNote.description,
-                noteKeywords: this.mapKeyWords(this.currentNote.keywords),
+                noteKeywords: this.currentNote.keywords.join(', '),
                 noteDate: this.currentNote.date
             });
         }
-    }
-
-    private mapKeyWords(keyWords) {
-        return keyWords.join(', ');
     }
 
     private getFormData() {

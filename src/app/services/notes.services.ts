@@ -39,21 +39,19 @@ export class NotesService {
     }
 
     editNote(noteData: NoteInterface, noteId: string) {
-        let editedNotes: NoteInterface[] = this.notesData.map((note: NoteInterface) => {
+        const editedNotes: NoteInterface[] = this.notesData.map((note: NoteInterface) => {
             if(note.id === noteId) {
                 Object.assign(note, noteData);
-                return note;
-            } else {
-                return note;
             }
+            return note;
         });
         this.notesData$.next(editedNotes);
     }
 
     deleteNote(noteId: string) {
         let deleteIndex: number;
-        for(let i: number = 0; i < this.notesData.length; i++) {
-            if(this.notesData[i].id === noteId) {
+        for (let i: number = 0; i < this.notesData.length; i++) {
+            if (this.notesData[i].id === noteId) {
                 deleteIndex = i;
             }
         }
@@ -67,20 +65,13 @@ export class NotesService {
         let searchNotes: NoteInterface[] = this.notesData.filter((note: NoteInterface) => {
             let isNoteKeyWord: boolean = false;
             for (let i: number = 0; i< keyWords.length; i++) {
-                if(note.keywords.indexOf(keyWords[i]) !== -1) {
-                    isNoteKeyWord = true;
-                } else {
-                    isNoteKeyWord = false;
-                }
+                isNoteKeyWord = note.keywords.indexOf(keyWords[i]) !== -1;
             }
-            if(isNoteKeyWord) return true;
+            if (isNoteKeyWord) {
+              return true;
+            }
         });
-        if (searchNotes.length) {
-            this.notesData$.next(searchNotes);
-        }
-        else {
-            this.notesData$.next(this.notesData);
-        }
+        this.notesData$.next(searchNotes.length ? searchNotes : this.notesData);
     }
 
 }
